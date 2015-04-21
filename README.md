@@ -8,7 +8,7 @@ And bootstrap 3.0 for css
 Python 2.7 (Should be also working on 3.0 but not tested)
 Tested on Crome (should be working with IE 10 and Firefox)
 
-Built on MAT (Mongo, Angular, Tornado) fraimwork developed by David Levi
+Built on MAT (Mongo, Angular, Tornado) framework developed by David Levi.
 
 # Install
 pull from git.
