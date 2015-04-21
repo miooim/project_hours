@@ -1,0 +1,64 @@
+<header ng-controller="MenuController as menu" class="navbar navbar-default navbar-static-top ate-tester-navbar-panel"
+        role="banner">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only" translate>Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <nav class="collapse navbar-collapse" role="navigation">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="#/home" translate>
+                        <img style="max-width: 50px; margin-top: -7px;"
+                             src="/static/web_res/images/logo_2.png">
+                    </a>
+                </li>
+                <li>
+                    <a href="#/home" translate>
+                        <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                    </a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="#/projectHours" translate>Project hours</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="#/analysis" translate>Analysis</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <p class="navbar-text">
+                        <span class="glyphicon glyphicon-user">
+                        </span>
+                            {{!menu.username()}}
+                    </p>
+                </li>
+                <li class="btn-group" dropdown>
+                    <a href="/#"
+                       class="dropdown-toggle"
+                       data-toggle="dropdown"
+                       dropdown-toggle
+                       role="menu"
+                       aria-expanded="false">
+                        <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a ng-click="menu.logout()" href="#">Log out</a></li>
+                        <li><a href="#/admin">Admin</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#/help">Help</a></li>
+                        <li><a href="#/about">About</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>

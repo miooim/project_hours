@@ -1,0 +1,238 @@
+<div>
+    <tabset>
+        <tab heading="By projects" select="an.tabSet(0)">
+            <br>
+
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Analysis</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label class="control-label">From: </label>
+
+                                    <p class="input-group">
+                                        <input type="text" class="form-control"
+                                               datepicker-popup="{{'dd-MMMM-yyyy'}}"
+                                               datepicker-options="dd-MMMM-yyyy"
+                                               ng-model="an.tableData[an.tab].dateFrom"
+                                               is-open="an.tableData[an.tab].from"
+                                               ng-required="true"
+                                               close-text="Close"/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default"
+                                            ng-click="an.datePickerOpen($event, 'from')"><i
+                                            class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                                    </p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="control-label">To: </label>
+
+                                    <p class="input-group">
+                                        <input type="text" class="form-control"
+                                               datepicker-popup="{{'dd-MMMM-yyyy'}}"
+                                               datepicker-options="dd-MMMM-yyyy"
+                                               ng-model="an.tableData[an.tab].dateTo"
+                                               is-open="an.tableData[an.tab].to"
+                                               ng-required="true"
+                                               close-text="Close"/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default"
+                                            ng-click="an.datePickerOpen($event, 'to')"><i
+                                            class="glyphicon glyphicon-calendar"></i>
+                                    </button>
+                                </span>
+                                    </p>
+                                </div>
+                                <div class="col-md-1">
+                                    <label class="control-label">Go:</label>
+
+                                    <p class="input-group">
+                                        <button class="btn btn-success"
+                                                ng-click="an.getResults()">
+                                            <span class="glyphicon glyphicon-search"></span>
+                                        </button>
+                                    </p>
+                                </div>
+                                <div class="col-md-1 pull-right"
+                                     ng-show="(an.tableData[an.tab].data.length > 0)">
+                                    <label class="control-label">Export:</label>
+
+                                    <p class="input-group">
+                                        <button type="button"
+                                                class="btn btn-info"
+                                                ng-csv="an.getExportArray()"
+                                                csv-header="an.tableData[an.tab].headers"
+                                                filename="{{an.tableData[an.tab].filename}}">
+                                            <span class="glyphicon glyphicon-export"></span>
+                                        </button>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert alert-warning"
+                         style="border-radius: 0;"
+                         ng-show="an.warning.status != 0"
+                         role="alert">{{an.warning.message}}{{an.warning}}
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <table st-table="rowCollection" class="table">
+                                <thead>
+                                <tr>
+                                    <th st-sort="month">Project</th>
+                                    <th st-sort="month">Total [h]</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="5">
+                                        <input st-search="an.tableData[an.tab].gs"
+                                               ng-model="an.tableData[an.tab].gs"
+                                               class="form-control"
+                                               placeholder="global search ..."
+                                               type="text"/>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr st-select-row="row"
+                                    st-select-mode="multiple"
+                                    ng-repeat="row in an.tableData[an.tab].data | filter:an.tableData[an.tab].gs:strict">
+                                    <td>{{row.project}}</td>
+                                    <td>{{row.total}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </tab>
+        <tab heading="By day" select="an.tabSet(1)">
+            <br>
+
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Analysis</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label class="control-label">From: </label>
+
+                                    <p class="input-group">
+                                        <input type="text" class="form-control"
+                                               datepicker-popup="{{'dd-MMMM-yyyy'}}"
+                                               datepicker-options="dd-MMMM-yyyy"
+                                               ng-model="an.tableData[an.tab].dateFrom"
+                                               is-open="an.tableData[an.tab].from"
+                                               ng-required="true"
+                                               close-text="Close"/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default"
+                                            ng-click="an.datePickerOpen($event, 'from')"><i
+                                            class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                                    </p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="control-label">To: </label>
+
+                                    <p class="input-group">
+                                        <input type="text" class="form-control"
+                                               datepicker-popup="{{'dd-MMMM-yyyy'}}"
+                                               datepicker-options="dd-MMMM-yyyy"
+                                               ng-model="an.tableData[an.tab].dateTo"
+                                               is-open="an.tableData[an.tab].to"
+                                               ng-required="true"
+                                               close-text="Close"/>
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default"
+                                                    ng-click="an.datePickerOpen($event, 'to')"><i
+                                                    class="glyphicon glyphicon-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </p>
+                                </div>
+                                <div class="col-md-1">
+                                    <label class="control-label">Go:</label>
+
+                                    <p class="input-group">
+                                        <button class="btn btn-success"
+                                                ng-click="an.getResults()">
+                                            <span class="glyphicon glyphicon-search"></span>
+                                        </button>
+                                    </p>
+                                </div>
+                                <div class="col-md-1 pull-right"
+                                     ng-show="(an.tableData[an.tab].data.length > 0)">
+                                    <label class="control-label">Export:</label>
+
+                                    <p class="input-group">
+                                        <button type="button"
+                                                class="btn btn-info"
+                                                ng-csv="an.getExportArray()"
+                                                csv-header="an.tableData[an.tab].headers"
+                                                filename="{{an.tableData[an.tab].filename}}">
+                                            <span class="glyphicon glyphicon-export"></span>
+                                        </button>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert alert-warning"
+                         style="border-radius: 0;"
+                         ng-show="an.warning.status != 0"
+                         role="alert">{{an.warning.message}}{{an.warning}}
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <table st-table="rowCollection" class="table">
+                                <thead>
+                                <tr>
+                                    <th st-sort="user">User name</th>
+                                    <th st-sort="month">Day</th>
+                                    <th st-sort="month">Month</th>
+                                    <th st-sort="year">Year</th>
+                                    <th st-sort="hours">Hours</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="5">
+                                        <input st-search="an.tableData[an.tab].gs"
+                                               ng-model="an.tableData[an.tab].gs"
+                                               class="form-control"
+                                               placeholder="global search ..."
+                                               type="text"/>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr st-select-row="row"
+                                    st-select-mode="multiple"
+                                    ng-repeat="row in an.tableData[an.tab].data | filter:an.tableData[an.tab].gs:strict">
+                                    <td>{{row.user}}</td>
+                                    <td>{{row.number}}</td>
+                                    <td>{{row.month}}</td>
+                                    <td>{{row.year}}</td>
+                                    <td>{{row.total}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </tab>
+    </tabset>
+</div>
+
+
+
+

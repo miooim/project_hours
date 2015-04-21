@@ -1,0 +1,115 @@
+<div>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Today - total hours invested this month <strong>{{home.totalHoursInvested}}</strong>
+                </div>
+                <div class="panel-body">
+                    <div class="col-sm-7"
+                         ng-class="{'card card-active z10': (home.focusDay),
+                            'card card-secondary z1': (home.days[home.currentDay - 1].name != 'Sunday') && (home.days[home.currentDay - 1].name != 'Friday') && (!home.focusDay),
+                            'card card-primary z1': (home.days[home.currentDay - 1].name == 'Sunday') && (!home.focusDay),
+                            'card card-sub z1': (home.days[home.currentDay - 1].name == 'Friday') && (!home.focusDay)
+                            }"
+                         ng-click="home.focusDay = true">
+                        <h4 class="text-center"><strong>{{home.days[home.currentDay - 1].number}}</strong>,
+                            {{home.days[home.currentDay - 1].name}}</h4>
+
+                        <div class="alert alert-warning"
+                             style="border-radius: 0;"
+                             ng-show="home.days[home.currentDay - 1].total>24"
+                             role="alert">
+                            You are working too hard! {{home.days[home.currentDay - 1].total}} hours in total.
+                            Only 24 hours in a day jus to remind you.
+                        </div>
+                        <div class="alert alert-warning"
+                             style="border-radius: 0;"
+                             ng-show="home.warning.status != 0"
+                             role="alert">{{home.warning.message}}
+                        </div>
+                        <h4 class="text-center" ng-if="home.days[home.currentDay - 1].projects.length == 0">Select
+                            project..</h4>
+
+                        <div class="col-sm-5">
+                            <label class="control-label"
+                                   ng-show="!(home.days[home.currentDay - 1].no_work == true)">Projects:</label>
+                            <select class=""
+                                    ng-show="!(home.days[home.currentDay - 1].no_work == true)"
+                                    style="border: none;"
+                                    ng-change="home.projectSelected(home.days[home.currentDay - 1])"
+                                    ng-model="home.days[home.currentDay - 1].project"
+                                    ng-options="prj.name for prj in home.projects">
+                            </select>
+                            <br>
+                            <div>
+                                <label class="control-label">Non working day:&nbsp;
+                                    <input type="checkbox"
+                                           ng-model="home.days[home.currentDay - 1].no_work">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-7"
+                             ng-show="!(home.days[home.currentDay - 1].no_work == true)">
+                            <table class="table table-condensed">
+                                <tr ng-if="home.days[home.currentDay - 1].projects.length != 0"
+                                    ng-repeat="prj in home.days[home.currentDay - 1].projects">
+                                    <td>
+                                        <span><strong>{{prj.name.number}}.{{prj.name.name}}</strong></span>
+                                        <br>
+                                        <span style="font-size: xx-small;">{{prj.name.description}}</span>
+                                    </td>
+                                    <td>
+                                        <select class="select"
+                                                style="width:80%; border: none;"
+                                                ng-change="home.updateTotalHoursDay(home.days[home.currentDay - 1])"
+                                                ng-model="prj.hours"
+                                                ng-options="hour for hour in home.hours">
+                                        </select>
+                                        <div class="pull-right">
+                                            <span class="glyphicon glyphicon-remove span-cur"
+                                                  ng-click="home.deleteProject(prj.name, home.days[home.currentDay - 1])"
+                                                  aria-hidden="true"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="pull-right">
+                                <label ng-show="home.days[home.currentDay - 1].total > 0"
+                                       class="control-label">Total hours: {{home.days[home.currentDay - 1].total}}:00
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="panel-body">
+                            <canvas id="doughnut"
+                                    class="chart chart-doughnut"
+                                    data="home.d_data"
+                                    labels="home.d_labels"
+                                    legend="true">
+                            </canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Dashboard
+                </div>
+                <div class="panel-body">
+                    <canvas class="chart chart-line"
+                            data="home.l_values"
+                            labels="home.l_labels"
+                            series="home.l_series"
+                            legend="true">
+                    </canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+
+#Pycharm
+.idea
+
+#web_lib
+web_res/bower_components
+web_res/node_modules
+
+src/local_config.py

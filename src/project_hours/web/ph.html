@@ -1,0 +1,154 @@
+<div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Project hours</h3>
+                </div>
+                <div class="panel-body">
+                    <!-- Split button -->
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label>Select date:&nbsp;&nbsp;&nbsp;&nbsp;</label>
+
+                            <div class="btn-group" dropdown>
+                                <a type="button"
+                                   href="#/projectHours/{{ph.workMonth}}/{{ph.workYear}}"
+                                   class="btn btn-primary"
+                                   style="width: 100px;">
+                                    {{ph.months[ph.workMonth]}}
+                                </a>
+                                <button type="button"
+                                        class="btn btn-primary dropdown-toggle"
+                                        dropdown-toggle>
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Split button!</span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#/projectHours/{{ph.findMonthIndex(m)}}/{{ph.workYear}}"
+                                           ng-repeat="m in ph.months"
+                                           ng-class="{'btn-warning': m == ph.months[ph.currentMonth]}">{{m}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="btn-group" dropdown>
+                                <a type="button"
+                                   href="#/projectHours/{{ph.workMonth}}/{{ph.workYear}}"
+                                   class="btn btn-primary"
+                                   style="width: 100px;">
+                                    {{ph.workYear}}
+                                </a>
+                                <button type="button"
+                                        class="btn btn-primary dropdown-toggle"
+                                        dropdown-toggle>
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Split button!</span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#/projectHours/{{ph.workMonth}}/{{y}}"
+                                           ng-repeat="y in ph.years"
+                                           ng-class="{'btn-warning': y == ph.currentYear}">{{y}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-group pull-right">
+                            <label class="control-label">
+                                {{ph.currentTime | date: "MMM, dd yyyy HH:mm:ss" }}
+                            </label>
+                            <br>
+                            <label class="control-label">Total time invested in projects this month:
+                                {{ph.totalHoursInvested}}</label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="alert alert-warning"
+                 style="border-radius: 0;"
+                 ng-show="ph.warning.status != 0"
+                 role="alert">{{ph.warning.message}}
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="inline col-sm-6"
+                         ng-repeat="day in ph.days">
+                        <div class="col-sm-12"
+                             ng-class="{'card card-active z10': day.number == ph.focusDay,
+                                'card card-secondary z1': (day.name != 'Sunday') && (day.name != 'Friday') && (day.number != ph.focusDay),
+                                'card card-primary z1': (day.name == 'Sunday') && (day.number != ph.focusDay),
+                                'card card-sub z1': ((day.name == 'Friday') || (day.name == 'Saturday')) && (day.number != ph.focusDay)
+                                }"
+                             ng-click="ph.focusDay = day.number">
+                            <h4 class="text-center"><strong>{{day.number}}</strong>, {{day.name}}</h4>
+
+                            <div class="alert alert-warning"
+                                 style="border-radius: 0;"
+                                 ng-show="day.total>24"
+                                 role="alert">
+                                You are working too hard! {{day.total}} hours in total.
+                                Only 24 hours in a day jus to remind you.
+                            </div>
+                            <h4 class="text-center" ng-if="day.projects.length == 0">Select project...</h4>
+
+                            <div class="inline col-sm-5">
+                                <label class="control-label"
+                                       ng-show="!(day.no_work == true)">Projects:</label>
+                                <select class=""
+                                        ng-show="!(day.no_work == true)"
+                                        style="border: none;"
+                                        ng-change="ph.projectSelected(day)"
+                                        ng-model="day.project"
+                                        ng-options="prj.name for prj in ph.projects">
+                                </select>
+                                <label class="control-label">Non working day:&nbsp;
+                                    <input type="checkbox"
+                                           ng-change="ph.updateTotalHoursMonth()"
+                                           ng-model="day.no_work">
+                                </label>
+                            </div>
+                            <div class="col-sm-7"
+                                 ng-show="!(day.no_work == true)">
+                                <table class="table table-condensed">
+                                    <tr ng-if="day.projects.length != 0"
+                                        ng-repeat="prj in day.projects">
+                                        <td>
+                                            <span><strong>{{prj.name.number}}.{{prj.name.name}}</strong></span>
+                                            <br>
+                                            <span style="font-size: xx-small;">{{prj.name.description}}</span>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <select class="select"
+                                                        style="width:60%; border: none;"
+                                                        ng-change="ph.updateTotalHoursDay(day)"
+                                                        ng-model="prj.hours"
+                                                        ng-options="hour for hour in ph.hours">
+                                                </select>
+                                                <span class="glyphicon glyphicon-remove span-cur"
+                                                      ng-click="ph.deleteProject(prj.name, day)"
+                                                      aria-hidden="true"></span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <div class="pull-right">
+                                    <label ng-show="day.total > 0"
+                                           class="control-label">Total hours: {{day.total}}:00</label>
+                                </div>
+                            </div>
+                            <div ng-show="ph.debug" class="col-md-12">
+                                <pre>{{day | json}}</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

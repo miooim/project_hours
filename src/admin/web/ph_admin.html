@@ -1,0 +1,74 @@
+<div>
+    <tabset>
+        <tab heading="Users" disabled="true">Users</tab>
+        <tab heading="Groups" disabled="true">Users groups</tab>
+        <tab heading="Projects">
+            <div>
+                <br>
+                <alert ng-show="ad.requestStatus.status != 0"
+                       class="warning">
+                    <button type="button"
+                            class="close"
+                            ng-click="ad.cleanWarning()"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    {{ad.requestStatus.message}}
+                </alert>
+                <div class="panel panel-default">
+                    <div class="panel-heading">Project manager</div>
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Number</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="prj in ad.projects">
+                                <td>
+                                    <input type='number' step="1" class="form-control" ng-model="prj.number">
+                                </td>
+                                <td>
+                                    <input type='text' class="form-control" ng-model="prj.name">
+                                </td>
+                                <td>
+                                    <input type='text' class="form-control" ng-model="prj.description">
+                                </td>
+                                <td>
+                                    <button class="btn btn-danger btn-sm"
+                                            ng-click="ad.deleteProjectItem(prj)">
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <button class="btn btn-success btn-sm"
+                                            ng-click="ad.addProjectItem()">
+                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                    </button>
+                                    <button class="btn btn-info btn-sm"
+                                            ng-click="ad.sortProjectItems()">
+                                        <span class="glyphicon glyphicon-sort-by-order" aria-hidden="true"></span>
+                                    </button>
+                                    <button class="btn btn-primary btn-sm"
+                                            ng-click="ad.smartSave()">
+                                        <span class="glyphicon glyphicon-save-file" aria-hidden="true"></span>
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </tab>
+    </tabset>
+</div>
